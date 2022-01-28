@@ -17,6 +17,7 @@ urlpatterns = [
   path("updatetehsil",views.addedittehsil,name='updatetehsil'),
   path("updatepanch", views.addeditpanchyat,name='updatepanch'),
   path("updatedistt", views.addeditdistt,name='updatedistt'),
+  path("updatesubject",views.addeditsubject,name="updatesubject")
 
   
 ]

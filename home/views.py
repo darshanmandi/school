@@ -294,6 +294,7 @@ def addeditpanchyat(request):
 def addeditdistt(request):
     stcd=1
     strec=statemas.objects.get(id=stcd)
+    stnm=strec.statenm
     dislist=disttmas.objects.filter(scode=strec)
     disttselected=False
     if request.method == 'POST':
@@ -301,9 +302,9 @@ def addeditdistt(request):
         if 'back' in request.POST:
             pass
         elif 'edit' in request.POST:
-            discd=int(request.POST['dis'])
+            discd=int(request.POST['edit'])
             print(request.POST)
-            disrec=disttmas.objects.get(scode=strec,disttcd=discd)
+            disrec=disttmas.objects.get(scode=strec,id=discd)
             context ={
                 'discd':disrec.id,
                 'disname':  disrec.disttnm,
@@ -317,12 +318,13 @@ def addeditdistt(request):
            
             context = {
                 'discd' : discd,
-                
-                'disstselected' : True
+                'disname':'',
+                'disttselected' : True
 
             }
+            return render (request,'adddistt.html',context)
         elif 'save' in request.POST:
-            discd=int(request.POST['disttcd'])
+            discd=int(request.POST['dis'])
             disnm=request.POST['aname']
             if discd == 0 :
                 disrec=disttmas(scode=strec,disttnm=disnm)
@@ -332,7 +334,7 @@ def addeditdistt(request):
             disrec.save()
             context ={
                 'stnm': strec.statenm,
-                'dislist':disttmas.objects.filter(socde=strec.id),
+                'dislist':disttmas.objects.filter(scode=strec.id),
                 'disttselected':False
             }
 
@@ -340,7 +342,31 @@ def addeditdistt(request):
     
     context ={
         'stcd':stcd,
-        'dislist': dislist
+        'dislist': dislist,
+        'disttselected':disttselected,
+        'stnm':stnm
             }
     return render(request,'adddistt.html',context)
 
+def addeditsubject(request):
+    subselect = False,
+    sublist = subjmas.objects.all()
+    if request.method == 'POST':
+        print(request.POST)
+        if 'back' in request.POST:
+            pass
+        elif 'edit' in request.POST:
+            subcd=int(request.POST['edit'])
+            print(request.POST)
+            subrec=subjmas.objects.get(id=subcd)
+            context ={
+                'subcd':subrec.id,
+                'subname':  subrec.sujcname,
+                'subselect':True
+            }
+            return render (request,'adddistt.html',context)
+    context={
+        'sublist':sublist,
+        'subselect':subselect
+    }
+    return render(request,"addeditsubject.html",context)

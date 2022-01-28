@@ -7,7 +7,9 @@ Master Entery
 <h3> Update District </h3>
 <form action="" method="post" id="initialform">
     {% if not disttselected %}
-        <label class="label label-warning">  District - {{ disnm }} </label>
+            <label class="label label-warning"> State - {{ stnm}} 
+
+            </label>
                 {% if dislist %}
                         <div class="form-group col-md-12">
                         <h4> <label class="label label-warning"> Already Added District </label> </h4>
@@ -52,7 +54,7 @@ Master Entery
     {% else %}
         <div class="form-row">
             <div class="form-group col-md-6">
-            <label for="bid"> Tehsil Code </label>
+            <label for="bid"> District Code </label>
             <input type='text' name = "dis" class="form-control" id="dis" value =  "{{ discd }}" readonly>
         </div>
 
@@ -60,7 +62,7 @@ Master Entery
         <div class="form-row">
             <div class="form-group col-md-6">
             <label for="aname">District  Name</label>
-            <input type="text" class="form-control is-valid" name = "aname" id="aname" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ tehnm }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Tehsil Name" autofocus  required>
+            <input type="text" class="form-control is-valid" name = "aname" id="aname" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ disname }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Tehsil Name" autofocus  required>
             </div>
         </div>
     <div class="form-row">
