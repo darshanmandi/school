@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+ {% block title%}
+Master Entery
+  {% endblock %}
+{% block body%}
+
+<h1> Update Tehsils </h1>
+<form action="" method="post" id="initialform">
+    {% if discd == 0 %}
+        {% if dislist %}
+            <div class="form-group col-md-4">
+                <label class="label label-warning"> Select District </label>
+                <select id="dis" name="dis"class="form-control" onchange="OnChange()">
+                    <option selected>Choose District ...</option>
+                        {% for entry in dislist %}
+                                
+                            <option value = {{ entry.id }}>{{ entry.disttnm }}</option>
+                                
+                        {% endfor %}
+                </select>    
+            </div>
+        {% else %}
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                <h3> <label class="label label-warning"> No District Available. Please add District First. </label> </h3>
+                </div>
+            </div>
+        
+
+        {% endif %}
+    {% else %}
+        <input type="hidden" id="discd" name="discd" value="{{ discd }}"/>
+        {% if not tehselected %}
+            <label class="label label-warning">  District - {{ disnm }} </label>
+            {% if tehlist %}
+                <div class="form-group col-md-12">
+                    <h4> <label class="label label-warning"> Already Added Tehsils </label> </h4>
+                </div>
+                <div class="container">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col"  >Tehsil Name </th>
+                                <th scope="col"  > Click to Edit </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in tehlist %}
+                                <tr>
+                                    <td scope="col"  > 
+                                        {{ row.tehname }}
+                                    </td>
+                                    <td scope="col"  > 
+                                        <button type="submit" name = "edit" value = "{{ row.id }}">Edit</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                    <h3> <label class="label label-warning"> No Tehsil Available </label> </h3>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <button type="submit" name="addmore" class="btn btn-primary">Add Tehsil</button>
+                </div>
+                <div class="form-group col-md-6">
+                    <button type="submit" name="back" class="btn btn-primary">Back</button>
+                </div>
+            </div>            
+        {% else %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="bid"> Tehsil Code </label>
+                    <input type='text' name = "tehcd" class="form-control" id="tehcd" value =  "{{ tehcd }}" readonly>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="aname">Tehsil Name</label>
+                    <input type="text" class="form-control is-valid" name = "aname" id="aname" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ tehnm }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Tehsil Name" autofocus  required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <button type="submit" name="save" class="btn btn-primary">Save</button>
+                </div>
+                <div class="form-group col-md-4">
+                    <button type="submit" name="cancel" class="btn btn-primary" formnovalidate>Cancel</button>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}    
+
+
+    {% csrf_token %}
+    <script type="text/javascript">
+        function OnChange(){
+                document.getElementById("initialform").submit();
+        } 
+    </script>
+
+</form>
+
+
+  {% endblock body %}

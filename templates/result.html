@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+ {% block title%}
+ Result
+  {% endblock %}
+  {% block body%}
+Student Name :{{dss1.name}}
+Roll Number : {{dss1.rno}}
+Std Clss: {{dss1.cls}}
+{% if dss1.result %}
+<br> You have passed the examination 
+{% endif %}
+{% endblock body %}

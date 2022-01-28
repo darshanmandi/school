@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+ {% block title%}
+ Home
+  {% endblock %}
+{% block body%}
+
+
+<div class="h-75 d-inline-block mx-0 my-0" style="width: 100%; background-color: rgba(0,0,255,.1)">
+ 
+<div class="container-fluid">
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5" aria-label="Slide 6"></button>
+
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+     <div class="d-flex justify-content-center">
+     <img src=".\static\img\6.jfif" class="d-block mw-100" alt="..."height="400" width="400">
+     </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Jai Ram Thakur</h5>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+     <div class="d-flex justify-content-center">
+     <img src=".\static\img\5.jfif" class="d-block mw-100" alt="..."height="400" width="400">
+     </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Second slide label</h5>
+        <p>Some representative placeholder content for the second slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+     <div class="d-flex justify-content-center">
+     <img src=".\static\img\4.jfif" class="d-block mw-100" alt="..."height="400" width="400">
+     </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <div class="d-flex justify-content-center">
+     <img src=".\static\img\3.jfif" class="d-block mw-100" alt="..."height="400" width="400">
+      </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+     <div class="d-flex justify-content-center">
+     <img src=".\static\img\2.jfif" class="d-block mw-100" alt="..."height="400" width="400">
+     </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+
+
+    <div class="carousel-item">
+     <div class="d-flex justify-content-center">
+     <img src=".\static\img\1.jfif" class="d-block mw-100 mh-100" alt="..." height="400" width="400">
+     </div>
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</div>
+</div>
+<form action="add" method="POST">
+ {% csrf_token %}
+ 
+  Enter  Student Name  <input type="text" name="name"> <br>
+  Entr Roll No : <input type ="text" name="rno"><br>
+  Class:<input type="text" name="cls"><br>
+  result:
+  <Select name="result" id="result">
+    <Option value="pass">Pass</Option>
+    <option value="fail">Fail </Option>
+  </Select>
+      
+
+
+  <input type="submit" >
+
+
+
+</form>
+ 
+
+{% endblock body %}

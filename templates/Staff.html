@@ -1,0 +1,62 @@
+
+
+{% extends 'base.html' %}
+{% load static %}
+{% static "Image" as baseUrl %}
+
+
+ {% block title%}
+     Teaching staff
+  {% endblock %}
+{% block body%}
+<p> List of  {{ cattype.first.get_desgcat_display}}</p>
+<table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name of Employee</th>
+        <th scope="col">Designation</th>
+        <th scope="col"> Qualification</th>
+        <th scope="col">PMIS</th>
+        <th scope="col">Mobile</th>
+        <th scope="col">Image</th>
+      </tr>
+    </thead>
+    {%for staff in staff %}
+    <tbody>
+      <tr>
+        <th scope="row">{{staff.empname}}</th>
+       
+        <td>
+         
+              {% if staff.subject.id == 11 %}
+                  {{staff.designation}}
+              {% else %}
+                  {{staff.designation}} {{staff.subject}} 
+              {% endif %}
+          
+          </td>
+        <td>{{staff.empquali}}</td>
+        <td>{{staff.pmiscode}}</td>
+        <td>{{staff.empmob}}</td>
+        <td>
+            <img src="{{staff.emppic.url}}"  class="img-thumbnail" alt="..." height=100 width=150>
+            
+        </td>
+      </tr>
+     {% comment %}  <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr> {% endcomment %}
+    </tbody>
+    {% endfor %} 
+  </table>
+
+
+{% endblock body %}
