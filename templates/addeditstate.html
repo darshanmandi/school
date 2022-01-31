@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
  {% block title%}
-Master Entery
+State 
   {% endblock %}
 {% block body%}
     <h3> Update Subject</h3>
     <form action="" method="post" id="initialform">
-        {% if not subselect %}
-       
-    
-                {% if  sublist %}
+        {% if not stselect %}
+                {%if stlist %}
                     <div class="form-group col-md-12">
                         <h4> <label class="label label-warning"> Already Added Subject</label> </h4>
                     </div>
@@ -16,15 +14,15 @@ Master Entery
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th scope="col"  >Subject Name </th>
+                                            <th scope="col"  >State Name </th>
                                             <th scope="col"  > Click to Edit </th>
                                         </tr>
                                     </thead>
                                 <tbody>
-                                    {% for row in sublist %}
+                                    {% for row in stlist %}
                                         <tr>
                                             <td scope="col"  > 
-                                                {{ row.sujcname }}
+                                                {{ row.statenm }}
                                             </td>
                                             <td scope="col"  > 
                                                 <button type="submit" name = "edit" value = "{{ row.id }}">Edit</button>
@@ -42,45 +40,44 @@ Master Entery
                     </div>
                 
                 {% endif  %}
-             <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <button type="submit" name="addmore" class="btn btn-primary">Add Subject</button>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <button type="submit" name="back" class="btn btn-primary">Back</button>
-                    </div>
+        <div class="form-row">
+                <div class="form-group col-md-6">
+                    <button type="submit" name="addmore" class="btn btn-primary">Add State</button>
+                </div>
+                <div class="form-group col-md-6">
+                    <button type="submit" name="back" class="btn btn-primary">Back</button>
+                </div>
     {% else %}
-    
         <div class="form-row">
             <div class="form-group col-md-6">
-            <label for="bid"> Subject Code </label>
-            <input type='text' name = "subcd" class="form-control" id="subcd" value =  "{{ subcd }}" readonly>
+            <label for="bid"> State Code </label>
+            <input type='text' name = "stcd" class="form-control" id="stcd" value =  "{{ stcd }}" readonly>
         </div>
 
 
         <div class="form-row">
             <div class="form-group col-md-6">
-            <label for="aname">District  Name</label>
-            <input type="text" class="form-control is-valid" name = "subname" id="subname" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ subname }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Tehsil Name" autofocus  required>
+            <label for="aname">State  Name</label>
+            <input type="text" class="form-control is-valid" name = "stname" id="stname" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ stname }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="State Name" autofocus  required>
             </div>
         </div>
-    <div class="form-row">
-        <div class="form-group col-md-4">
-        <button type="submit" name="save" class="btn btn-primary">Save</button>
-    </div>
-    <div class="form-group col-md-4">
-        <button type="submit" name="cancel" class="btn btn-primary" formnovalidate>Cancel</button>
-    </div>
-    </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <button type="submit" name="save" class="btn btn-primary">Save</button>
+            </div>
+            <div class="form-group col-md-4">
+                <button type="submit" name="cancel" class="btn btn-primary" formnovalidate>Cancel</button>
+            </div>
+        </div>
     {% endif %}
-      
+    
 
 {% csrf_token %}       
 </form> 
 <script type="text/javascript">
-    function OnChange()
-    {
-            document.getElementById("initialform").submit();
-    } 
+function OnChange()
+{
+        document.getElementById("initialform").submit();
+} 
 </script>    
 {% endblock body  %}

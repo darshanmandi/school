@@ -1,5 +1,5 @@
 from os import truncate
-from django.db import models
+from django.db import ProgrammingError, models
 from django.db.models.deletion import CASCADE
 from django.db.models.enums import Choices
 from django.db.models.expressions import F
@@ -45,6 +45,7 @@ class tehmas(models.Model):
 class pomas(models.Model):
     pincd=models.IntegerField()
     ponmame=models.CharField(max_length=20, default=False,blank=False)
+    distcd=models.ForeignKey(disttmas,on_delete=CASCADE)
     def __str__(self):
         return self.ponmame
 
@@ -62,8 +63,9 @@ class bankmas(models.Model):
     def __str__(self):
         return self.bnkbranchnm
 class classmas(models.Model):
+    clevelchoices=(('E','Elementary'),('H','Higher'),('S','Secondary'))
     clasdesc=models.CharField(max_length=20, unique=True)
-    classlvl=models.CharField(max_length=1,default=False,blank=False)
+    classlvl=models.CharField(max_length=1,choices=clevelchoices,default='S')
     def __str__(self):
         return self.clasdesc
 class subjmas(models.Model):
@@ -134,6 +136,15 @@ class studentbasic(models.Model):
      stsatus=models.CharField(max_length=1,default=False,blank=False)
      def __str__(self):
         return self.stdname,self.stclass
+class classsubject(models.Model):
+    clscd=models.ForeignKey(classmas,on_delete=CASCADE)
+    subj=models.ForeignKey(subjmas,on_delete=CASCADE)
+    tmm=models.IntegerField()
+    pmm=models.IntegerField()
+    amm=models.IntegerField()
+    subjcombid=models.IntegerField()
+    def __str__(self):
+        return self.subj,self.subjcombid
 
 
 

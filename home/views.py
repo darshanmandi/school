@@ -1,12 +1,13 @@
 from django.db.models.functions.text import PostgreSQLSHAMixin
 from django.shortcuts import render
 from django.http import  HttpResponse, request
+from pkg_resources import PkgResourcesDeprecationWarning
 from Hello.settings import BASE_DIR
 from pathlib import Path,os
 from django.db import models
 from django.db.models import manager,functions
 
-from home.models import desigmas, disttmas, panchayatmas, schoolmas, staffmas,Destination, statemas, subjmas, tehmas
+from home.models import bankmas, desigmas, disttmas, panchayatmas, pomas, schoolmas, staffmas,Destination, statemas, subjmas, tehmas
 
 
 # Create your views here.
@@ -364,9 +365,207 @@ def addeditsubject(request):
                 'subname':  subrec.sujcname,
                 'subselect':True
             }
-            return render (request,'adddistt.html',context)
+            return render (request,"addeditsubject.html",context)
+        elif 'addmore' in request.POST:
+            subcd=0
+            context ={
+                'subcd': subcd,
+                'subname':'',
+                'subselect':True
+            }
+            return render(request,"addeditsubject.html",context)
+        elif 'save' in request.POST:
+            subcd=int(request.POST['subcd'])
+            subnm=request.POST['subname']
+            if subcd==0 :
+                subrec=subjmas(sujcname=subnm)
+            else:
+                subrec=subjmas.objects.get(id=subcd)
+                subrec.sujcname=subnm
+            subrec.save()
+            context ={
+                'sublist':subjmas.objects.all(),
+                'subselect': False
+            }
+
+            return render(request,"addeditsubject.html",context)
     context={
         'sublist':sublist,
-        'subselect':subselect
+        'subselect':False
     }
     return render(request,"addeditsubject.html",context)
+def addeditbank(request):
+    banklist=bankmas.objects.all()
+    if request.method == 'POST':
+        print(request.POST)
+        if 'back' in request.POST:
+            pass
+        elif 'addmore' in request.POST:
+            bankcd=0
+            context ={
+                'bankcd':bankcd,
+                'bnkname':'',
+                'ifsc':'',
+                'bankselect':True
+
+            }
+            return render(request,"addeditbnkbrnch.html",context)
+        elif 'edit' in request.POST:
+            bankcd=int(request.POST['edit'])
+            bankrec=bankmas.objects.get(id=bankcd)
+            context ={
+                'bnkname':bankrec.bnkbranchnm,
+                'ifsc':bankrec.bankifsc,
+                'bankcd':bankrec.id,
+                'bankselect':True
+            }
+            return render(request,"addeditbnkbrnch.html",context)
+
+        elif 'save' in request.POST:
+            bankcd=int(request.POST['bankcd'])
+            bnkname=request.POST['bnkname']
+            ifsc=request.POST['ifsc']
+            if bankcd==0:
+                bankrec=bankmas(bankifsc=ifsc,bnkbranchnm=bnkname)
+            else:
+                bankrec=bankmas.objects.get(id=bankcd)
+                bankrec.bnkbranchnm=bnkname
+                bankrec.bankifsc=ifsc
+            bankrec.save()
+            context={
+                'bankselect':False,
+                'banklist':bankmas.objects.all()
+            }
+            return render(request,"addeditbnkbrnch.html",context)
+
+
+    context ={
+        'banklist':banklist,
+        'bankselect': False
+    }
+    return render(request,"addeditbnkbrnch.html",context)
+def addeditpo(request):
+    stcd=1
+    discd=0
+    dislist=disttmas.objects.filter(scode=stcd)
+    if request.method=='POST':
+        print(request.POST)
+        if 'back' in request.POST:
+            pass
+        elif 'dis' in request.POST:
+            discd=int(request.POST['dis'])
+            disrec=disttmas.objects.get(id=discd)
+            polist=pomas.objects.filter(distcd=discd)
+            context ={
+                'polist':polist,
+                'discd':disrec.id,
+                'disnm':disrec.disttnm,
+                'poselected':False
+            }
+            return render(request,"addeditpo.html",context)
+        elif 'addmore' in request.POST:
+            discd=int(request.POST['discd'])
+            disrec=disttmas.objects.get(id=discd)
+            pocd=0
+            context ={
+                'discd':disrec.id,
+                'disnm':disrec.disttnm,
+                'pocd':pocd,
+                'poname':'',
+                'pincd':'',
+                'poselected':True
+            }
+            return render(request,"addeditpo.html",context)
+        elif 'edit' in request.POST:
+            discd=int(request.POST['discd'])
+            pocd=int(request.POST['edit'])
+            disrec=disttmas.objects.get(id=discd)
+            prec=pomas.objects.get(id=pocd)
+            context={
+                'pocd':pocd,
+                'poname':prec.ponmame,
+                'pin'   :prec.pincd,
+                'discd': disrec.id,
+                'disnm':disrec.disttnm,
+                'poselected':True
+            }
+            return render(request,"addeditpo.html",context)
+        elif 'save' in request.POST:
+            discd=int(request.POST['discd'])
+            disrec=disttmas.objects.get(id=discd)
+            pocd=int(request.POST['pocd'])
+            pin=int(request.POST['pin'])
+            poname=request.POST['poname']
+            if pocd == 0:
+                prec=pomas(pincd=pin,ponmame=poname,distcd=disrec)
+            else:
+                prec=pomas.objects.get(id=pocd)
+                prec.pincd=pin
+                prec.ponmame=poname
+            prec.save()
+            context ={
+                'discd':discd,
+                'disnm':disrec.disttnm,
+                'polist':pomas.objects.all(),
+                'poselected':False
+            }
+            return render(request,"addeditpo.html",context)
+
+            
+
+    context ={
+        'dislist':dislist,
+        'discd': discd,
+        'disselect': False
+    }
+    return render(request,"addeditpo.html",context)
+def addeditstate(request):
+    stlist=statemas.objects.all()
+    stselect=False
+    if request.method=='POST':
+        print(request.POST)
+
+        if 'back' in request.POST:
+            pass
+        elif 'addmore' in request.POST:
+            stcd=0
+            context ={
+                'stcd':stcd,
+                'stname':'',
+                'stselect':True
+            }
+            return render(request,"addeditstate.html",context)
+        elif 'edit' in request.POST:
+            stcd=int(request.POST['edit'])
+            strec=statemas.objects.get(id=stcd)
+            context ={
+                'stcd':strec.id,
+                'stname':strec.statenm,
+                'stselect': True
+            }
+            return render(request,"addeditstate.html",context)
+        elif 'save' in request.POST:
+            stcd=int(request.POST['stcd'])
+            stnm=request.POST['stname']
+            
+            if stcd == 0:
+                strec=statemas(statenm=stnm)
+            else:
+                strec=statemas.objects.get(id=stcd)
+                strec.statenm=stnm
+            strec.save()
+            context ={
+            'stlist':statemas.objects.all(),
+            'stselect':False
+            }
+            return render(request,"addeditstate.html",context)
+        
+
+
+    context={
+        'stlist':stlist,
+        'stselect':stselect
+
+    }
+
+    return render(request,"addeditstate.html",context)
