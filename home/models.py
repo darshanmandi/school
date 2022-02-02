@@ -143,8 +143,10 @@ class classsubject(models.Model):
     pmm=models.IntegerField()
     amm=models.IntegerField()
     subjcombid=models.IntegerField()
+    
     def __str__(self):
-        return self.subj,self.subjcombid
+        return (self.clscd.clasdesc,self.subj.sujcname)
+      
 
 
 

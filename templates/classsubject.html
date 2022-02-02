@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+ {% block title%}
+Subject Mapping
+  {% endblock %}
+{% block body%}
+
+  <h1> Subject Mapping </h1>
+  <form action="" method="post" id="initialform">
+    {% if clcd == 0 %}
+      
+        {% if cllist %}
+          <div class="form-group col-md-4">
+            <label class="label label-warning"> Select Class </label>
+              <select id="cls" name="cls"class="form-control" onchange="OnChange()">
+                <option selected>Choose Class ...</option>
+                    
+
+                  {% for entry in cllist %}
+                    {% if entry.id == clcd %}
+                              
+                      <option value = {{ entry.id }} selected>{{ entry.clasdesc }}</option>
+                    {% else %}
+                        <option value = {{ entry.id }} >{{ entry.clasdesc }}</option> 
+                    {% endif %}    
+                  {% endfor %}
+              </select>    
+          </div>
+        {% else %}
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                  <h3> <label class="label label-warning"> No Class is available  </label> </h3>
+                </div>
+            </div>
+
+
+        {% endif %}
+    {% else %}
+        <input type="hidden" id="clscd" name="clscd" value="{{ clcd }}"/>
+            {% if maplist %}
+              <div class="form-group col-md-12">
+                <h4> <label class="label label-warning"> Already Added Subject Details </label> </h4>
+              </div>
+              <div class="container">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col"  >Class </th>
+                            <th scope="col"  >Subject </th>
+                            <th scope="col"  > Maximum Theory Marks </th>
+                            <th scope="col"  > Maximum Paractical Marks </th>
+                            <th scope="col"  > Maximum Internal Assessment Marks </th>
+                            <th scope="col"  > SUbject Combination ID(Enter 0 for  Mandatory Subject)  </th>
+                            <th scope="col"  > Click to Edit </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in maplist %}
+                            <tr>
+                                <td scope="col"  > 
+                                    {{ row.clscd }}
+                                </td>
+                                <td scope="col"  > 
+                                  {{ row.subj }}
+                                </td>
+                                <td scope="col"  > 
+                                  {{ row.tmm}}
+                                </td>
+                              <td scope="col"  > 
+                                {{ row.pmm }}
+                              </td>
+                              <td scope="col"  > 
+                                {{ row.amm }}
+                              </td>
+                              <td scope="col">
+                                {{ row.subjcombid }}
+                              </td>
+                              <td scope="col"  > 
+                                    <button type="submit" name = "edit" value = "{{ row.id }}">Edit</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+            {%else%}
+              <h3> No MApping </h3>
+            {%endif%}
+      {%endif%}
+
+
+
+          
+    
+
+    
+      {% csrf_token %}
+      <script type="text/javascript">
+          function OnChange(){
+                  document.getElementById("initialform").submit();
+          } 
+      </script>
+
+  </form>
+
+
+{% endblock body %}

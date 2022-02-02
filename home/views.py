@@ -7,7 +7,7 @@ from pathlib import Path,os
 from django.db import models
 from django.db.models import manager,functions
 
-from home.models import bankmas, desigmas, disttmas, panchayatmas, pomas, schoolmas, staffmas,Destination, statemas, subjmas, tehmas
+from home.models import bankmas, classmas, classsubject, desigmas, disttmas, panchayatmas, pomas, schoolmas, staffmas,Destination, statemas, subjmas, tehmas
 
 
 # Create your views here.
@@ -569,3 +569,32 @@ def addeditstate(request):
     }
 
     return render(request,"addeditstate.html",context)
+
+def subjmapp(request):
+    clcd = 0
+    maplist=classsubject.objects.all().order_by ('clscd')
+    cllist= classmas.objects.all()
+    subjlist=subjmas.objects.all()
+    if request.method=='POST':
+        print(request.POST)
+        if 'back' in request.POST:
+            pass
+        elif 'cls' in request.POST:
+            clcd=int(request.POST['cls'])
+            clrec=classmas.objects.get(id=clcd)
+            maplist=classsubject.objects.filter(clscd=clrec.id)
+            context={
+                 'cllist':cllist,
+                 'maplist':maplist,
+                'clcd':clcd
+            }
+            return render(request,'classsubject.html',context)
+    context ={
+        'cllist':cllist,
+        'subjlist':subjlist,
+        'maplist':maplist,
+        'clselect':False,
+        'clcd':clcd
+    }
+
+    return render(request,'classsubject.html',context)
