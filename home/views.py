@@ -586,9 +586,52 @@ def subjmapp(request):
             context={
                  'cllist':cllist,
                  'maplist':maplist,
-                'clcd':clcd
+                'clcd':clcd,
+                'mpadd':False
             }
             return render(request,'classsubject.html',context)
+        elif 'edit' in request.POST:
+            mpid=int(request.POST['edit'])
+            mprec=classsubject.objects.get(id=mpid)
+            clas=classmas.objects.get(clasdesc=mprec.clscd)
+            subj=subjmas.objects.get(sujcname=mprec.subj)
+            context ={
+            'mpid':mpid,
+            'clas':clas.id,
+            'clasnm':clas.clasdesc,
+            'subid':subj.id,
+            'tmark':mprec.tmm,
+            'amark':mprec.amm,
+            'pmark':mprec.pmm,
+            'comb':mprec.subjcombid,
+            'subjlist':subjlist,
+            'mpadd':True
+            }
+            return render(request,'classsubject.html',context)
+        elif 'save' in request.POST:
+            mpid = int(request.POST['mpid'])
+            clscd = int(request.POST['clcd'])
+            tmark = int(request.POST['tmark'])
+            amark= int(request.POST['amark'])
+            pmark= int(request.POST['pmark'])
+            combid=int(request.POST['amark'])
+            disr = disttmas.objects.get(id = discd)
+            if tehcd == 0:
+                tehrec = tehmas(stcod=strec,disttcd=disr,tehname=tehname)
+            else:
+                tehrec = tehmas.objects.get(id = tehcd)
+                tehrec.tehname = tehname
+
+            tehrec.save()
+            context = {
+                'discd' : discd,
+                'disnm' : disr.disttnm,
+                'tehlist' : tehmas.objects.filter(stcod = strec, disttcd = disr),
+                'tehselected' : False
+
+            }
+            return render (request, 'addedittehsil.html', context)
+
     context ={
         'cllist':cllist,
         'subjlist':subjlist,

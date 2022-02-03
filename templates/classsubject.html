@@ -36,6 +36,7 @@ Subject Mapping
         {% endif %}
     {% else %}
         <input type="hidden" id="clscd" name="clscd" value="{{ clcd }}"/>
+          {%if not mpadd%}
             {% if maplist %}
               <div class="form-group col-md-12">
                 <h4> <label class="label label-warning"> Already Added Subject Details </label> </h4>
@@ -85,6 +86,68 @@ Subject Mapping
             {%else%}
               <h3> No MApping </h3>
             {%endif%}
+         
+           <div class="form-row">
+              <div class="form-group col-md-6">
+                  <button type="submit" name="addmore" class="btn btn-primary">Add Mapping</button>
+              </div>
+              <div class="form-group col-md-6">
+                  <button type="submit" name="back" class="btn btn-primary">Back</button>
+              </div>
+           </div>
+          {% else %}
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label for="bid"> Class </label>
+                      <input type='hidden' name = "clcd" class="form-control" id="clcd" value =  "{{ clas }}" readonly>
+                      <input type='hidden' name = "mpid" class="form-control" id="mpid" value =  "{{ mpid }}" readonly>
+                      <input type='text' name = "clcd" class="form-control" id="clcd" value =  "{{ clasnm }}" readonly>
+                  </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="label label-warning"> Subject Selected </label>
+                  <select id="sub" name="sub"class="form-control" onchange="OnChange()">
+                    <option selected>Choose Class ...</option>
+                        
+    
+                      {% for entry in subjlist %}
+                        {% if entry.id == subid %}
+                                  
+                          <option value = {{ entry.id }} selected>{{ entry.sujcname }}</option>
+                        {% else %}
+                            <option value = {{ entry.id }} >{{ entry.sujcname }}</option> 
+                        {% endif %}    
+                      {% endfor %}
+                  </select>    
+              </div>
+              <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label for="aname">Theory Maximum Marks</label>
+                      <input type="text" class="form-control is-valid" name = "tmark" id="tmark" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ tmark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Theory Maximum Marks" autofocus  required>
+                  </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="aname">Internal Assessment Maximum Marks</label>
+                    <input type="text" class="form-control is-valid" name = "amark" id="amark" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ amark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Assessment Maximum Marks" autofocus  required>
+                </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="aname">Paractical Maximum Marks</label>
+                  <input type="text" class="form-control is-valid" name = "pmark" id="pmark" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ pmark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="pmark" autofocus  required>
+              </div>
+          </div>
+              <div class="form-row">
+                  <div class="form-group col-md-4">
+                      <button type="submit" name="save" class="btn btn-primary">Save</button>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <button type="submit" name="cancel" class="btn btn-primary" formnovalidate>Cancel</button>
+                  </div>
+              </div>
+          {% endif %}
+              
       {%endif%}
 
 
