@@ -572,7 +572,7 @@ def addeditstate(request):
 
 def subjmapp(request):
     clcd = 0
-    maplist=classsubject.objects.all().order_by ('clscd')
+    maplist=classsubject.objects.filter(clscd=clcd).order_by ('clscd')
     cllist= classmas.objects.all()
     subjlist=subjmas.objects.all()
     if request.method=='POST':
@@ -590,6 +590,24 @@ def subjmapp(request):
                 'mpadd':False
             }
             return render(request,'classsubject.html',context)
+        elif 'addmore' in request.POST:
+            mpid=0
+            subj=subjmas.objects.all()
+            clcd=int(request.POST['clscd'])
+            clas=classmas.objects.get(id=clcd)
+            context={
+                'clas':clas.id,
+                'clasnm':clas.clasdesc,
+                'subjlist':subj,
+                'subid':None,
+                'tmark':'',
+                'amark':'',
+                'pmark':'',
+                'comb':'',
+                'mpid':mpid,
+                 'mpadd':True
+            }
+            return render(request,'classsubject.html',context)
         elif 'edit' in request.POST:
             mpid=int(request.POST['edit'])
             mprec=classsubject.objects.get(id=mpid)
@@ -598,39 +616,49 @@ def subjmapp(request):
             context ={
             'mpid':mpid,
             'clas':clas.id,
-            'clasnm':clas.clasdesc,
+            'clasnm':mprec.clscd.clasdesc,
             'subid':subj.id,
             'tmark':mprec.tmm,
             'amark':mprec.amm,
             'pmark':mprec.pmm,
             'comb':mprec.subjcombid,
             'subjlist':subjlist,
-            'mpadd':True
+            'mpadd':True,
+            'mplist':classsubject.objects.filter(clscd=clas.id)
+
             }
             return render(request,'classsubject.html',context)
         elif 'save' in request.POST:
             mpid = int(request.POST['mpid'])
+            sub=int(request.POST['sub'])
             clscd = int(request.POST['clcd'])
+            clasrec=classmas.objects.get(id=clscd)
+            subrec=subjmas.objects.get(id=sub)
             tmark = int(request.POST['tmark'])
             amark= int(request.POST['amark'])
             pmark= int(request.POST['pmark'])
-            combid=int(request.POST['amark'])
-            disr = disttmas.objects.get(id = discd)
-            if tehcd == 0:
-                tehrec = tehmas(stcod=strec,disttcd=disr,tehname=tehname)
+            combid=int(request.POST['comb'])
+            
+            if mpid == 0:
+                mprec = classsubject(clscd=clasrec,subj=subrec,tmm=tmark,pmm=pmark,amm=amark,subjcombid=combid)
             else:
-                tehrec = tehmas.objects.get(id = tehcd)
-                tehrec.tehname = tehname
+                mprec= classsubject.objects.get(id = mpid)
+                mprec.tmm = tmark
+                mprec.amm=amark
+                mprec.pmm=pmark
+                mprec.subjcombid=combid
 
-            tehrec.save()
+            mprec.save()
             context = {
-                'discd' : discd,
-                'disnm' : disr.disttnm,
-                'tehlist' : tehmas.objects.filter(stcod = strec, disttcd = disr),
-                'tehselected' : False
+                'cllist':cllist,
+                'subjlist':subjlist,
+                'maplist':classsubject.objects.filter(clscd=clasrec.id),
+                'clselect':False,
+                'mpadd':False,
+                'clcd':clasrec.id
 
             }
-            return render (request, 'addedittehsil.html', context)
+            return render(request,'classsubject.html',context)
 
     context ={
         'cllist':cllist,

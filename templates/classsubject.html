@@ -101,12 +101,12 @@ Subject Mapping
                       <label for="bid"> Class </label>
                       <input type='hidden' name = "clcd" class="form-control" id="clcd" value =  "{{ clas }}" readonly>
                       <input type='hidden' name = "mpid" class="form-control" id="mpid" value =  "{{ mpid }}" readonly>
-                      <input type='text' name = "clcd" class="form-control" id="clcd" value =  "{{ clasnm }}" readonly>
+                      <input type='text' name = "clnm" class="form-control" id="clnm" value =  "{{ clasnm }}" readonly>
                   </div>
               </div>
               <div class="form-group col-md-4">
                 <label class="label label-warning"> Subject Selected </label>
-                  <select id="sub" name="sub"class="form-control" onchange="OnChange()">
+                  <select id="sub" name="sub"class="form-control" >
                     <option selected>Choose Class ...</option>
                         
     
@@ -123,20 +123,26 @@ Subject Mapping
               <div class="form-row">
                   <div class="form-group col-md-6">
                       <label for="aname">Theory Maximum Marks</label>
-                      <input type="text" class="form-control is-valid" name = "tmark" id="tmark" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ tmark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Theory Maximum Marks" autofocus  required>
+                      <input type="text" class="form-control is-valid" name = "tmark" id="tmark" pattern="[0-9\u0900-\u097F ()]{0,4}" value = "{{ tmark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Theory Maximum Marks" autofocus  required>
                   </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="aname">Internal Assessment Maximum Marks</label>
-                    <input type="text" class="form-control is-valid" name = "amark" id="amark" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ amark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Assessment Maximum Marks" autofocus  required>
+                    <input type="text" class="form-control is-valid" name = "amark" id="amark" pattern="[0-9\u0900-\u097F ()]{0,9}" value = "{{ amark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="Assessment Maximum Marks" autofocus  required>
                 </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                   <label for="aname">Paractical Maximum Marks</label>
-                  <input type="text" class="form-control is-valid" name = "pmark" id="pmark" pattern="[A-Za-z\u0900-\u097F ()]{0,60}" value = "{{ pmark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="pmark" autofocus  required>
+                  <input type="text" class="form-control is-valid" name = "pmark" id="pmark" pattern="[0-9\u0900-\u097F ()]{0,}" value = "{{ pmark }}" title="Maximum 60 Character Alphabets and Spaces only." placeholder="pmark" autofocus  required>
               </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="aname">Subject Combination ID</label>
+                <input type="text" class="form-control is-valid" name = "comb" id="comb" pattern="[0-9\u0900-\u097F ()]{0,4}" value = "{{ comb }}" title="enter 0 for  Mandatory Subject." placeholder="pmark" autofocus  required>
+            </div>
           </div>
               <div class="form-row">
                   <div class="form-group col-md-4">
