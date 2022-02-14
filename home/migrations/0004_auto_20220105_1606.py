@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='staffmas',
             name='empdoj',
-            field=models.DateField(default='2022-01-01'),
+            field=models.DateField(),
             preserve_default=False,
         ),
         migrations.AddField(

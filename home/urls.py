@@ -21,7 +21,8 @@ urlpatterns = [
   path("updatebank",views.addeditbank,name="updatebank"),
   path("updatepo",views.addeditpo,name="updatepo"),
   path("updatestate",views.addeditstate,name="updatestate"),
-  path('updateclssubj',views.subjmapp,name='updateclssubj')
+  path('updateclssubj',views.subjmapp,name='updateclssubj'),
+  path("studentreg",views.studentreg,name="studentreg")
 
   
 ]

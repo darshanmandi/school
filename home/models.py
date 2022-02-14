@@ -1,4 +1,6 @@
 from os import truncate
+from random import choice, choices
+from unittest.util import _MAX_LENGTH
 from django.db import ProgrammingError, models
 from django.db.models.deletion import CASCADE
 from django.db.models.enums import Choices
@@ -10,6 +12,7 @@ from django.db.models.functions import Concat
 
 import datetime
 from datetime import datetime
+from django.forms import CharField
 from django.utils import timezone
 # Create your models here.
 class Destination:
@@ -18,6 +21,11 @@ class Destination:
     cls:int
     rno:int
     result:bool
+class exammas(models.Model):
+    exmtype=models.CharField(max_length=10)
+    def __str__(self):
+        return self.exmtype 
+
 class schoolmas(models.Model):
     udise=models.IntegerField()
     schoolcoe=models.IntegerField()
@@ -111,31 +119,61 @@ class studentbasic(models.Model):
      stcatchoices = (('G','General'),('O','OBC'),('S','SC'),('T','ST'),('N','Not Applicable'))
      stsexchoices = (('M','Male'),('F','Feamle'),('O','Other'))
      streligionchoices = (('H','Hindu'),('M','Muslim'),('S','Sikh'),('C','Christian'))
-     #strealtionchoices = (('S','S/O पुत्र'),('D','D/O पुत्री '))
-     stdname=models.CharField(max_length=25,blank=False,default=False)
-     #strltion=models.CharField(max_length=1,choices=strealtionchoices,default='S')
-     stfname=models.CharField(max_length=25,blank=False,default=False)
-     stmname=models.CharField(max_length=25,blank=False,default=False)
+     statuschoices=(('A','Admitted'),('E','Pending'),('L','SLC'))
+     bldchoices=(('A','A+'),('A1','A-'),('B','B+'),('B1','B-'),('O','O+'),('O1','O-'),('AB','AB+'),('AB1','AB-'),('Z','Not Known'))
+     stdname=models.CharField(max_length=25,blank=False,null=False)
+     stfname=models.CharField(max_length=25,blank=False,null=False)
+     stmname=models.CharField(max_length=25,blank=False,null=False)
      strelig=models.CharField(max_length=1,choices=streligionchoices,default='H')
      stcat=models.CharField(max_length=1,choices=stcatchoices,default='G')
      stsex=models.CharField(max_length=1,choices=stsexchoices,default='M')
      stdob=models.DateField()
-     stdoa=models.DateField()
-     stclass=models.ForeignKey(classmas,on_delete=CASCADE)
-     Stadmno=models.IntegerField()
-     stadyear=models.IntegerField()
+     stblood=models.CharField(max_length=3,choices=bldchoices,default='Z')
      stdacct=models.IntegerField()
      stbank=models.ForeignKey(bankmas,on_delete=CASCADE)
      stdmob=models.IntegerField()
      stduid=models.IntegerField()
-     stvillg=models.CharField(max_length=25,blank=False,default=False)
+     stvillg=models.CharField(max_length=25,blank=False,null=False)
      stdistt=models.ForeignKey(disttmas,on_delete=CASCADE)
      Stteh=models.ForeignKey(tehmas,on_delete=CASCADE)
      stpo=models.ForeignKey(pomas,on_delete=CASCADE)
      stpanch=models.ForeignKey(panchayatmas,on_delete=CASCADE)
-     stsatus=models.CharField(max_length=1,default=False,blank=False)
+     stpic=models.ImageField(upload_to='staffpic', null=True)
+     sthrtc=models.CharField(max_length=25,blank=True)
+     stsatus=models.CharField(max_length=1,choices=statuschoices, default='E',blank=False)
+     stdate=models.DateField(null=True)
+
      def __str__(self):
-        return self.stdname,self.stclass
+        return  self.stdname 
+class studentclass (models.Model):
+    resultchoice=(('P','Pass'),('F','Fail'),('L','SLC'),('A','Admitted'),('E','Pending'))
+    school= models.ForeignKey(schoolmas,on_delete= CASCADE)
+    classcd=models.ForeignKey(classmas,on_delete=CASCADE)
+    adyear=models.CharField(max_length=4,null=True)
+    admno=models.IntegerField(null=True)
+    admdate=models.DateField(null=True)
+    rollno=models.IntegerField(null=True)
+    appid=models.ForeignKey(studentbasic,on_delete=CASCADE)
+    appdate=models.DateField(null=True)
+    sesyear=models.CharField(max_length=4)
+    examrno=models.IntegerField()
+    mo=models.IntegerField(default=0)
+    mm=models.IntegerField(default=0)
+    clstat=models.CharField(max_length=1,choices=resultchoice,default='E')
+    def __str__(self):
+        return (self.sesyear)
+class studentsubj(models.Model):
+    sujrslt=(('P','Pass'),('F','Fail'))
+    stuclid=models.ForeignKey(studentclass,on_delete=CASCADE)
+    examcd=models.ForeignKey(exammas,on_delete=CASCADE)
+    subjcd=models.ForeignKey(subjmas,on_delete=CASCADE)
+    tmo=models.IntegerField()
+    amo=models.IntegerField()
+    pmo=models.IntegerField()
+    subjresult=models.CharField(max_length=1,choices=sujrslt,null=True)
+    def __str__(self):
+        return self.subjcd.sujcname
+ 
 class classsubject(models.Model):
     clscd=models.ForeignKey(classmas,on_delete=CASCADE)
     subj=models.ForeignKey(subjmas,on_delete=CASCADE)
@@ -146,12 +184,3 @@ class classsubject(models.Model):
     
     def __str__(self):
         return (self.clscd.clasdesc,self.subj.sujcname)
-      
-
-
-
-
-
-
-
-

@@ -669,3 +669,7 @@ def subjmapp(request):
     }
 
     return render(request,'classsubject.html',context)
+
+def studentreg(request):
+    return render(request,"studentreg.html")
+
