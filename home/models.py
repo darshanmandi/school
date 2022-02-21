@@ -116,7 +116,7 @@ class  staffmas(models.Model):
     def __str__(self):
         return  self.empname
 class studentbasic(models.Model):
-     stcatchoices = (('G','General'),('O','OBC'),('S','SC'),('T','ST'),('N','Not Applicable'))
+     stcatchoices = (('G','General'),('O','OBC'),('S','SC'),('T','ST'),('N','Not Applicable'),('H','General IRDP'),('I','OBC IRDP'),('J','SC IRDP'),('K','ST IRDP'))
      stsexchoices = (('M','Male'),('F','Feamle'),('O','Other'))
      streligionchoices = (('H','Hindu'),('M','Muslim'),('S','Sikh'),('C','Christian'))
      statuschoices=(('A','Admitted'),('E','Pending'),('L','SLC'))

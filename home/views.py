@@ -671,5 +671,115 @@ def subjmapp(request):
     return render(request,'classsubject.html',context)
 
 def studentreg(request):
-    return render(request,"studentreg.html")
+    stsexchoices = (('M','Male'),('F','Feamle'),('O','Other/लागू नहीं'))
+    streligionchoices = (('H','Hindu'),('M','Muslim'),('S','Sikh'),('C','Christian'))
+    stcatchoices = (('G','General'),('O','OBC'),('S','SC'),('T','ST'),('H','General IRDP'),('I','OBC IRDP'),('J','SC IRDP'),('K','ST IRDP'),('N','Not Applicable'))
+    statuschoices=(('A','Admitted'),('E','Pending'),('L','SLC'))
+    bldchoices=(('A','A+'),('A1','A-'),('B','B+'),('B1','B-'),('O','O+'),('O1','O-'),('AB','AB+'),('AB1','AB-'),('Z','Not Known'))
+    cllist= classmas.objects.all()
+    statelist=statemas.objects.all()
+    if request.method=='POST':
+        print(request.POST)
+        stcd=int(request.POST['stnm'])
+        clcd=int(request.POST['cls'])
+        sexcd=(request.POST['gend'])
+        relgcd=(request.POST['rlg'])
+        scast=request.POST['scat']
+        bldcd=request.POST['sbld']
+
+        if request.POST['dis'] == 'Choose...':
+            strec=statemas.objects.get(id=stcd)
+            dislist=disttmas.objects.filter(scode=strec.id)
+            context={
+                'sex':stsexchoices,
+                'rlglist':streligionchoices,
+                'cstlist':stcatchoices,
+                'bldlist':bldchoices,
+                'clslist':cllist,
+                'stlist':statelist,
+                'dislist':dislist,
+                'clcd':clcd,
+                'sexcd':sexcd,
+                'sex':stsexchoices,
+                'bldlist':bldchoices,
+                'rlgcd':relgcd,
+                'rlglist':streligionchoices,
+                'cstlist':stcatchoices,
+                'scast':scast,
+                'bldcd':bldcd,
+                'stcd':strec.id
+                }                
+            return render(request,"studentreg.html",context)
+        elif request.POST['teh'] == 'Choose...':
+            stcd=int(request.POST['stnm'])
+            strec=statemas.objects.get(id=stcd)
+            discd=int(request.POST['dis'])
+            disrec=disttmas.objects.get(id=discd)
+            dislist=disttmas.objects.filter(scode=strec.id)
+            tehlist=tehmas.objects.filter(disttcd=disrec.id)
+            context= {
+                    
+                'stcd':strec.id,
+                'discd':discd,
+                'dislist':dislist,
+                'stlist':statelist,
+                'tehlist':tehlist,
+                'clslist':cllist,
+                'sexcd':sexcd,
+                'sex':stsexchoices,
+                'rlglist':streligionchoices,
+                'rlgcd':relgcd,
+                'scast':scast,
+                'cstlist':stcatchoices,
+                'bldlist':bldchoices,
+                'bldcd':bldcd,
+                'clcd':clcd
+            }
+            return render(request,"studentreg.html",context)
+        elif request.POST['pan'] == 'Choose...':
+            stcd=int(request.POST['stnm'])
+            strec=statemas.objects.get(id=stcd)
+            discd=int(request.POST['dis'])
+            tehcd=int(request.POST['teh'])
+            tehrec=tehmas.objects.get(id=tehcd)
+            disrec=disttmas.objects.get(id=discd)
+            dislist=disttmas.objects.filter(scode=strec.id)
+            tehlist=tehmas.objects.filter(disttcd=disrec.id)
+            panlist=panchayatmas.objects.filter(tehcd=tehrec.id)
+            context= {
+                    
+                'stcd':strec.id,
+                'discd':discd,
+                'dislist':dislist,
+                'stlist':statelist,
+                'tehlist':tehlist,
+                'clslist':cllist,
+                'clcd':clcd,
+                'tehcd':tehrec.id,
+                'sexcd':sexcd,
+                'sex':stsexchoices,
+                'rlglist':streligionchoices,
+                'rlgcd':relgcd,
+                'scast':scast,
+                'cstlist':stcatchoices,
+                'bldcd':bldcd,
+                'bldlist':bldchoices,
+                'panlist':panlist
+            }
+            return render(request,"studentreg.html",context)
+
+        else:
+            pass
+
+    context={
+         'sex':stsexchoices,
+         'rlglist':streligionchoices,
+         'cstlist':stcatchoices,
+         'bldlist':bldchoices,
+         'clslist':cllist,
+         'stlist':statelist,
+         
+         
+     }
+    return render(request,"studentreg.html",context)
 

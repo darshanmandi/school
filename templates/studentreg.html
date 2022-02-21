@@ -27,7 +27,21 @@
          <br>
       </div>
   <div class="row mb-3">
-        
+        <div class="form-group col-md-4">
+          <label for="inputState">
+            Class
+          </label>
+            <select id="cls" name="cls" class="form-control">
+               <option selected>Choose...</option>
+               {% for x in clslist %}
+                  {%if x.id == clcd %}
+                    <option value= {{x.id}} selected>{{x.clasdesc}}.</option>
+                  {% else %}
+                     <option value= {{x.id}}>{{x.clasdesc}}.</option>
+                  {%endif%}
+                {% endfor %}
+            </select>
+        </div>
           <div class="form-group col-md-4">
             <label for="inputState">Name</label>
               <input type="text" class="form-control" id="stu" name ="stu" placeholder="Name/नाम" required=True>
@@ -45,8 +59,13 @@
             <select id="gend" name="gend" class="form-control">
               <option selected>Choose...</option>
               {% for x,y in sex %}
-                                    
-              <option value = {{ x }}>{{ y }}</option>
+                
+                {% if x == sexcd %}
+                  <option value = {{ x }} selected>{{ y }}</option>
+                {% else %}
+                                     
+                  <option value = {{ x }}>{{ y }}</option>
+                {% endif %}
                                   
               {% endfor %}
             </select>
@@ -57,11 +76,14 @@
           </div>
           <div class="form-group col-md-4">
             <label for="inputState">Religion</label>
-            <select id="rcat" name="rcat" class="form-control">
+            <select id="rlg" name="rlg" class="form-control">
               <option selected>Choose...</option>
-              {% for x,y in cstlist %}
-                                    
-              <option value = {{ x }}>{{ y }}</option>
+              {% for x,y in rlglist %}
+                {%if x == rlgcd %} 
+                  <option value = {{ x }} selected>{{ y }}</option>
+                {%else%}               
+                  <option value = {{ x }}>{{ y }}</option>
+                {%endif%}
                                   
               {% endfor %}
             </select>
@@ -71,21 +93,30 @@
             <select id="scat" name="scat" class="form-control">
               <option selected>Choose...</option>
               {% for x,y in cstlist %}
+                {%if x == scast %}
+                  <option value = {{ x }} selected>{{ y }}</option>
+                {% else%}
                                     
-              <option value = {{ x }}>{{ y }}</option>
+                  <option value = {{ x }}>{{ y }}</option>
+                {%endif%}
                                   
               {% endfor %}
             </select>
           </div>
-        
-         <div class="form-group col-md-4">
+          <div class="form-group col-md-4">
+         
             <label for="inputState">Blood Group</label>
-        
-            {% comment %} <select id="sbld" name="sbld" class="form-control">
+            <select id="sbld" name="sbld" class="form-control">
               <option selected>Choose...</option>
-              {% for x,y in catlist %}
+              {% for x,y in bldlist %}
+                 {% if bldcd == x %}             
+                    <option value = {{ x }} selected>{{ y }}</option>
+                  {% else%}
+                                    
+                    <option value = {{ x }}>{{ y }}</option>
+                  {%endif%}
                               
-                <option value = {{ x }}>{{ y }}</option>
+
                             
               {% endfor %}
             </select> 
@@ -122,10 +153,7 @@
         <label for="dob">Date of Birth </label>
          <input type='date' class="form-control" id='dob' name='dob' />
       </div>
-      <div class="form-group col-md-4">
-        <label for="doj">Date of Joining </label>
-         <input type='date' class="form-control" id='doj' name='doj' />
-      </div>
+      
       {% comment %} <div class="container">
         <div class="row">
            <div class='col-sm-6'>
@@ -174,14 +202,73 @@
         </select>
       </div>
       <div class="form-group col-md-4">
-        <label for="inputPassword4">Qualification </label>
-        <input type="text" class="form-control" id="qua" name ="qua" placeholder="Qualification">
+        <label for="inputPassword4">Village Name </label>
+        <input type="text" class="form-control" id="vnm" name ="vnm" placeholder="Village">
       </div>
       <div class="form-group col-md-4">
-        <label for="inputPassword4">Seniority Number </label>
-        <input type="text" class="form-control" id="seno" name="seno" placeholder="Seniority Number">
+        <label for="inputPassword4">HRTC Bus Stopage </label>
+        <input type="text" class="form-control" id="hrtc" name="seno" placeholder="बस स्टेशन का नाम जंहा  से  बस पास  बनेगा">
       </div>
-    </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">State</label>
+        <select id="stnm" name="stnm"class="form-control" onchange="OnChange()">
+          <option selected>Choose...</option>
+          {% for item in stlist %}
+          {%if item.id == stcd %}
+            <option value={{item.id}} selected> {{item.statenm}}</option>
+          {% else %}
+            <option value={{item.id}}> {{item.statenm}}</option>
+          {% endif %}
+          {% endfor %}
+
+
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <input type="text" class="form-control" id="inputCity" value="{{discd}}">
+        <label for="inputState">District</label>
+        <select id="dis" name="dis" class="form-control" onchange="OnChange()">
+           <option selected>Choose...</option>
+          {% for item in dislist %}
+            {%if item.id == discd %}
+                <option value={{item.id}} selected> {{item.disttnm}}</option>
+            {% else %}
+               <option value={{item.id}}>{{item.disttnm}}</option>
+            {%endif%}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">Tehsil</label>
+        <select id="teh" name="teh" onchange="OnChange()" class="form-control">
+          <option selected>Choose...</option>
+          {% for item in tehlist %}
+          {%if item.id == tehcd %}
+            <option value={{item.id}} selected> {{item.tehname}}</option>
+          {% else %}
+            <option value={{item.id}}> {{item.tehname}}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">Panchayat Name</label>
+        <select id="pan"  name="pan" class="form-control">
+          <option selected>Choose...</option>
+          {% for x in panlist %}
+            <option valus={{x.id}}>{{x.panname}}</option>
+          {%endfor%}
+
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">Pin Code</label>
+        <select id="inputState" class="form-control">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+
     {% comment %} <div class="form-group">
       <label for="inputAddress">Address</label>
       <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
@@ -230,8 +317,16 @@
   <script>
       alert("Saved Successfully");
       
+        function OnChange(){
+                document.getElementById("stureg").submit();
+        } 
     </script>
   {% endif %}
- 
+  <script type="text/javascript">
+    function OnChange(){
+            document.getElementById("stureg").submit();
+    } 
+</script>
+
 
   {% endblock body %}
